@@ -61,7 +61,6 @@ member = flip contains
         
 -- | Choose a member of the set satisfying a predicate.  
 -- If @search s p = Just x@ then @p x = True@.
--- This operation is total whenever @p@ is total.
 search :: Set a -> (a -> Bool) -> Maybe a
 search s p = if p x then Just x else Nothing
     where
@@ -77,9 +76,13 @@ forsome s p = p (find s p)
 forevery :: Set a -> (a -> Bool) -> Bool
 forevery s p = not (forsome s (not . p))
 
--- | @pairSet x y@ is the set @{x,y}@.
-pairSet :: a -> a -> Set a
-pairSet x y = Set (\p -> if p x then x else y)
+-- | @singleton x@ is the set @{x}@.
+singleton :: a -> Set a
+singleton = return
+
+-- | @pair x y@ is the set @{x,y}@.
+pair :: a -> a -> Set a
+pair x y = Set (\p -> if p x then x else y)
 
 -- | @x `member` union s t@ iff @(x `member` s) || (x `member` t)@.
 union :: Set a -> Set a -> Set a
