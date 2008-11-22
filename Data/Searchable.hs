@@ -12,7 +12,7 @@
 -- 
 -- Example usage:
 -- 
--- > bit = pairSet True False
+-- > bit = pair True False
 -- > cantor = sequence (repeat bit)
 -- > take 5 $ search cantor (\s -> not (s !! 3) && (s !! 4))
 -- >    -- gives [True, True, True, False, True]
@@ -23,7 +23,7 @@
 ----------------------------------------
 
 module Data.Searchable
-    (Set, search, bigUnion, forsome, forevery, pairSet, union)
+    (Set, search, bigUnion, forsome, forevery, pair, union)
 where
 
 import Control.Applicative
@@ -86,4 +86,4 @@ pair x y = Set (\p -> if p x then x else y)
 
 -- | @x `member` union s t@ iff @(x `member` s) || (x `member` t)@.
 union :: Set a -> Set a -> Set a
-union s t = bigUnion (pairSet s t)
+union s t = bigUnion (pair s t)
