@@ -23,7 +23,7 @@
 ----------------------------------------
 
 module Data.Searchable
-    (Set, search, bigUnion, forsome, forevery, pair, union)
+    (Set, search, bigUnion, contains, member, forsome, forevery, singleton, doubleton, union)
 where
 
 import Control.Applicative
@@ -81,9 +81,9 @@ singleton :: a -> Set a
 singleton = return
 
 -- | @pair x y@ is the set @{x,y}@.
-pair :: a -> a -> Set a
-pair x y = Set (\p -> if p x then x else y)
+doubleton :: a -> a -> Set a
+doubleton x y = Set (\p -> if p x then x else y)
 
 -- | @x `member` union s t@ iff @(x `member` s) || (x `member` t)@.
 union :: Set a -> Set a -> Set a
-union s t = bigUnion (pair s t)
+union s t = bigUnion (doubleton s t)
