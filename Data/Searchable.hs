@@ -7,8 +7,8 @@
 -- Stability   : experimental
 -- Portability : portable
 --
--- An implementation of nonempty "searchable" sets, i.e. sets s which admit a
--- total operation @search s :: (a -> Bool) -> Maybe a@.
+-- An implementation of nonempty searchable (compact and overt) sets, i.e. sets s 
+-- which admit a total operation @search s :: (a -> Bool) -> Maybe a@.
 -- 
 -- Example usage:
 -- 
@@ -17,9 +17,9 @@
 -- > take 5 $ search cantor (\s -> not (s !! 3) && (s !! 4))
 -- >    -- gives [True, True, True, False, True]
 --
--- This module is based on the paper "Exhaustible sets in higher-type computation"
+-- This module is based on the paper \"Exhaustible sets in higher-type computation\"
 -- by Martin Escardo, and is almost identical to the code in his his expository blog
--- post on the subject: http://math.andrej.com/2008/11/21/a-haskell-monad-for-infinite-search-in-finite-time/
+-- post on the subject: @http:\/\/math.andrej.com\/2008\/11\/21\/a-haskell-monad-for-infinite-search-in-finite-time\/@
 ----------------------------------------
 
 module Data.Searchable
@@ -47,7 +47,7 @@ instance Applicative Set where
     (<*>) = ap
 
 -- | @bigUnion ss@ is the union of all the elemens of @ss@.  In other words,
--- @x `member` bigUnion ss@ iff @forsome ss (\s -> x `member` s)@.
+-- @x \`member\` bigUnion ss@ iff @forsome ss (\s -> x \`member\` s)@.
 bigUnion :: Set (Set a) -> Set a
 bigUnion ss = Set (\p -> find (find ss (\s -> forsome s p)) p)
 
@@ -84,6 +84,6 @@ singleton = return
 doubleton :: a -> a -> Set a
 doubleton x y = Set (\p -> if p x then x else y)
 
--- | @x `member` union s t@ iff @(x `member` s) || (x `member` t)@.
+-- | @x \`member\` union s t@ iff @(x \`member\` s) || (x \`member\` t)@.
 union :: Set a -> Set a -> Set a
 union s t = bigUnion (doubleton s t)
